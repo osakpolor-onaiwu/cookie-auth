@@ -6,6 +6,9 @@ const routes = require("./routes");
 const session = require("express-session");
 require("dotenv").config();
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
 mongoose
   .connect(dbConfig.mongoUri, dbConfig.config)
   .then(() => {
@@ -28,7 +31,6 @@ session_store.on("error", function (error) {
   console.log(error);
 });
 
-app.use(express.urlencoded({ extended: false }));
 app.use(
   session({
     secret: process.env.SESSION_SECRET,

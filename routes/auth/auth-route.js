@@ -19,11 +19,14 @@ router.post("/login", async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
   if (!user) res.json({ error: "email not found" });
+
   const isMatch = bcrypt.compare(password, user.password);
   if (!isMatch) res.json({ error: "password not match" });
 
   req.session.isAuthenticated = true;
-  res.redirect("/auth/dashboard");
+  res.json({
+    user: user,
+  });
 });
 
 router.post("/register", async (req, res) => {
